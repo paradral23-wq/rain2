@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RainChic | Концепт сайта</title>
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap');
+    :root {
+        --mint: #C4E8D1; --blue: #2B4570; --gray: #F4F4F6; --pink: #F9E0E8; --white: #FFFFFF; --text: #2B2B2B; --muted: #888;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Montserrat', sans-serif; background: var(--gray); color: var(--text); }
+
+    /* HEADER */
+    header { background: var(--white); padding: 0 5%; height: 70px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
+    .logo { font-size: 20px; font-weight: 600; letter-spacing: 3px; color: var(--blue); text-decoration: none; }
+    .nav-catalog { position: relative; cursor: pointer; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: 500; padding: 5px 10px; }
+    .nav-catalog:hover .dropdown { display: block; }
+    .dropdown { display: none; position: absolute; top: 100%; left: 0; background: var(--white); border: 1px solid #eee; min-width: 180px; z-index: 200; box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+    .dropdown a { display: block; padding: 12px 20px; font-size: 13px; text-decoration: none; color: var(--text); transition: 0.2s; }
+    .dropdown a:hover { background: var(--gray); color: var(--blue); }
+    .header-icons { display: flex; gap: 20px; align-items: center; font-size: 13px; }
+    .header-icons a { text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 6px; font-size: 13px; }
+    .header-icons a:hover { color: var(--blue); }
+
+    /* FOOTER */
+    footer { background: var(--blue); color: white; padding: 50px 5%; margin-top: 60px; }
+    .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+    .footer-col h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; color: var(--mint); }
+    .footer-col a { display: block; color: rgba(255,255,255,0.7); text-decoration: none; font-size: 13px; font-weight: 300; margin-bottom: 8px; }
+
+    /* BUTTONS */
+    .btn { display: inline-block; padding: 14px 36px; font-size: 12px; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; cursor: pointer; transition: 0.2s; border: none; text-decoration: none; }
+    .btn-primary { background: var(--blue); color: white; }
+    .btn-primary:hover { background: #1a2c4a; }
+    .btn-mint { background: var(--mint); color: var(--blue); }
+    .btn-outline { background: transparent; border: 2px solid var(--blue); color: var(--blue); }
+
+    /* PAGE SECTIONS */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    
+    /* IMPROVED MOBILE RESPONSIVENESS */
+    @media (max-width: 768px) {
+        /* Header Mobile */
+        header { padding: 0 20px; height: 60px; }
+        .logo { font-size: 18px; letter-spacing: 2px; }
+        .header-icons { gap: 15px; }
+        .header-icons span { display: none; } /* Hide text next to icons on mobile */
+
+        /* General Sections */
+        section { padding: 50px 20px !important; }
+        section h2 { font-size: 1.4rem !important; letter-spacing: 2px !important; margin-bottom: 30px !important; }
+
+        /* Hero */
+        #slider h1 { font-size: 2.2rem !important; line-height: 1.2 !important; }
+        #slider p { font-size: 0.95rem !important; margin-bottom: 30px !important; }
+        .btn-primary { width: 100%; text-align: center; padding: 16px !important; font-size: 13px !important; }
+
+        
+        /* REORDER SECTIONS ON MOBILE */
+        #home { display: flex; flex-direction: column; }
+        #home header { order: 1; }
+        #home-hero { order: 2; }
+        #home-new { order: 3; padding-top: 40px !important; } /* Bring new arrivals right after hero */
+        #home-categories { order: 4; } /* Categories go after new arrivals */
+        #home-popular { order: 5; }
+        #home-advantages { order: 6; }
+        #home footer { order: 7; }
+
+        /* Categories - Stack with elegant height */
+        .categories-grid { display: flex !important; flex-direction: column !important; gap: 20px !important; }
+        .categories-grid a { height: 180px !important; border-radius: 8px; overflow: hidden; padding: 20px !important; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .categories-grid a h3 { font-size: 1.5rem !important; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .categories-grid a span { font-size: 11px !important; font-weight: 500; }
+
+        /* New Arrivals - 2 columns grid for mobile to save space and look fashion */
+        .new-arrivals-grid { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 15px !important; }
+        .new-arrivals-grid a { margin-bottom: 10px; }
+        .new-arrivals-grid img { height: 220px !important; border-radius: 6px; }
+        .new-arrivals-grid div { font-size: 13px !important; line-height: 1.3; }
+
+        /* Popular Products - Full width cards */
+        .popular-grid { display: flex !important; flex-direction: column !important; gap: 15px !important; }
+        .popular-grid a { padding: 15px !important; border-radius: 8px; border: 1px solid #eee; }
+        .popular-grid img { width: 80px !important; height: 100px !important; border-radius: 4px; }
+
+        /* Advantages - Scrollable row or tight grid */
+        .advantages-grid { display: grid !important; grid-template-columns: 1fr !important; gap: 30px !important; text-align: center; }
+        .advantages-grid div { padding: 20px; background: var(--gray); border-radius: 8px; }
+        .advantages-grid .fa, .advantages-grid div[style*="font-size:36px"] { margin-bottom: 10px !important; }
+
+        /* Footer */
+        footer { padding: 40px 20px !important; }
+        .footer-grid { display: flex !important; flex-direction: column !important; gap: 30px !important; }
+        .footer-col { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; }
+        .footer-col:last-child { border-bottom: none; }
+        .footer-bottom { display: flex !important; flex-direction: column-reverse !important; gap: 20px !important; text-align: center; }
+    }
+
+    .lk-order-grid:not(:first-child):hover {
+        background: #f9f9f9;
+    }
+
+</style>
+</head>
+<body>
+
+
+<div id="home" class="page active">
+
+    <header>
+        <a href="#" class="logo" onclick="showPage('home')">RainChic</a>
+        <div style="display:flex; gap: 30px; align-items: center;">
+            <div class="nav-catalog">
+                Каталог ▾
+                <div class="dropdown">
+                    <a href="javascript:void(0)" onclick="showPage('catalog')">Все товары</a>
+                    <a href="javascript:void(0)" onclick="showPage('catalog-shoes')">Обувь</a>
+                    <a href="javascript:void(0)" onclick="showPage('catalog-clothes')">Одежда</a>
+                    <a href="javascript:void(0)" onclick="showPage('catalog-accessories')">Аксессуары</a>
+                </div>
+            </div>
+        </div>
+        <div class="header-icons">
+            <a href="javascript:void(0)" onclick="showPage('login')">👤 <span>Войти</span></a>
+            <a href="javascript:void(0)" onclick="showPage('cart')">🛒 <span>(2)</span></a>
+        </div>
+    </header>
+
+  <!-- HERO SLIDER -->
+  <div id="home-hero" style="position:relative; overflow:hidden; min-height:75vh;">
+    <!-- Slides -->
+    <div id="slider" style="display:flex; transition: transform 0.6s ease; width:300%;">
+      <!-- Slide 1 -->
+      <div style="width:33.333%; min-height:75vh; background:url(hero_1.png) center/cover no-repeat; display:flex; align-items:center; justify-content:center; text-align:center; padding:40px;">
+        <div>
+          <p style="font-size:12px; text-transform:uppercase; letter-spacing:3px; margin-bottom:16px; color:var(--blue); opacity:0.7;">Весна 2026</p>
+          <h1 style="font-size:3.8rem; font-weight:300; line-height:1.1; margin-bottom:24px; color:var(--blue);">ЯРКИЙ КОМФОРТ<br>В ЛЮБУЮ ПОГОДУ</h1>
+          <p style="font-size:1rem; font-weight:300; max-width:500px; margin:0 auto 40px; color:var(--blue); opacity:0.8;">Стильные вещи для дождливых дней.</p>
+          <a href="#" class="btn btn-primary" onclick="showPage('catalog')">Смотреть коллекцию</a>
+        </div>
+      </div>
+      <!-- Slide 2 -->
+      <div style="width:33.333%; min-height:75vh; background:url(hero_2.png) center/cover no-repeat; display:flex; align-items:center; justify-content:center; text-align:center; padding:40px;">
+        <div>
+          <p style="font-size:12px; text-transform:uppercase; letter-spacing:3px; margin-bottom:16px; color:var(--blue); opacity:0.7;">Новинки</p>
+          <h1 style="font-size:3.8rem; font-weight:300; line-height:1.1; margin-bottom:24px; color:var(--blue);">ПЛАЩИ<br>НОВОЙ КОЛЛЕКЦИИ</h1>
+          <p style="font-size:1rem; font-weight:300; max-width:500px; margin:0 auto 40px; color:var(--blue); opacity:0.8;">Лёгкие, стильные, непромокаемые.</p>
+          <a href="#" class="btn btn-primary" onclick="showPage('catalog')">Смотреть одежду</a>
+        </div>
+      </div>
+      <!-- Slide 3 -->
+      <div style="width:33.333%; min-height:75vh; background:url(category_accessories_v2.png) center/cover no-repeat; display:flex; align-items:center; justify-content:center; text-align:center; padding:40px;">
+        <div>
+          <p style="font-size:12px; text-transform:uppercase; letter-spacing:3px; margin-bottom:16px; color:var(--blue); opacity:0.7;">Аксессуары</p>
+          <h1 style="font-size:3.8rem; font-weight:300; line-height:1.1; margin-bottom:24px; color:var(--blue);">ЗОНТЫ<br>ДЛЯ СТИЛЬНЫХ</h1>
+          <p style="font-size:1rem; font-weight:300; max-width:500px; margin:0 auto 40px; color:var(--blue); opacity:0.8;">Дождь — это повод быть красивой.</p>
+          <a href="#" class="btn btn-primary" onclick="showPage('catalog')">Смотреть аксессуары</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Arrow Controls -->
+    <button onclick="slidePrev()" style="position:absolute; left:24px; top:50%; transform:translateY(-50%); width:48px; height:48px; background:rgba(255,255,255,0.85); border:none; cursor:pointer; font-size:20px; z-index:10;">‹</button>
+    <button onclick="slideNext()" style="position:absolute; right:24px; top:50%; transform:translateY(-50%); width:48px; height:48px; background:rgba(255,255,255,0.85); border:none; cursor:pointer; font-size:20px; z-index:10;">›</button>
+
+    <!-- Dots -->
+    <div style="position:absolute; bottom:28px; left:50%; transform:translateX(-50%); display:flex; gap:10px; z-index:10;">
+      <div id="dot-0" onclick="goToSlide(0)" style="width:28px; height:3px; background:var(--blue); cursor:pointer; transition:0.3s;"></div>
+      <div id="dot-1" onclick="goToSlide(1)" style="width:10px; height:3px; background:rgba(43,69,112,0.3); cursor:pointer; transition:0.3s;"></div>
+      <div id="dot-2" onclick="goToSlide(2)" style="width:10px; height:3px; background:rgba(43,69,112,0.3); cursor:pointer; transition:0.3s;"></div>
+    </div>
+  </div>
+
+  <!-- CATEGORIES -->
+  <section id="home-categories" style="padding: 70px 5%;">
+    <h2 style="text-align:center; font-size:1.2rem; font-weight:500; letter-spacing:3px; margin-bottom:40px; text-transform:uppercase;">Категории</h2>
+    <div class="categories-grid" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:24px;">
+      <a href="javascript:void(0)" onclick="showPage('catalog-shoes')" style="display:flex; flex-direction:column; justify-content:flex-end; height:350px; background:linear-gradient(to top, rgba(43,69,112,0.55), rgba(43,69,112,0.05)), url(category_shoes.png) center/cover no-repeat; text-decoration:none; color:white; padding:24px; transition:0.3s;">
+        <h3 style="font-size:1.3rem; margin-bottom:4px;">Обувь</h3>
+        <span style="font-size:12px; text-transform:uppercase; letter-spacing:1px; opacity:0.7;">Резиновые сапоги</span>
+      </a>
+      <a href="javascript:void(0)" onclick="showPage('catalog-clothes')" style="display:flex; flex-direction:column; justify-content:flex-end; height:350px; background:linear-gradient(to top, rgba(43,69,112,0.55), rgba(43,69,112,0.05)), url(category_clothes_v2.png) center/cover no-repeat; text-decoration:none; color:white; padding:24px; transition:0.3s;">
+        <h3 style="font-size:1.3rem; margin-bottom:4px;">Одежда</h3>
+        <span style="font-size:12px; text-transform:uppercase; letter-spacing:1px; opacity:0.7;">Плащи и дождевики</span>
+      </a>
+      <a href="javascript:void(0)" onclick="showPage('catalog-accessories')" style="display:flex; flex-direction:column; justify-content:flex-end; height:350px; background:linear-gradient(to top, rgba(43,69,112,0.55), rgba(43,69,112,0.05)), url(category_accessories_v2.png) center/cover no-repeat; text-decoration:none; color:white; padding:24px; transition:0.3s;">
+        <h3 style="font-size:1.3rem; margin-bottom:4px;">Аксессуары</h3>
+        <span style="font-size:12px; text-transform:uppercase; letter-spacing:1px; opacity:0.7;">Зонты и резинки</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- НОВИНКИ -->
+  <section id="home-new" style="padding: 0 5% 70px; background: var(--white);">
+    <h2 style="text-align:center; font-size:1.2rem; font-weight:500; letter-spacing:3px; padding-top:60px; margin-bottom:40px; text-transform:uppercase;">Новинки</h2>
+    <div class="new-arrivals-grid" style="display:grid; grid-template-columns: repeat(4, 1fr); gap:24px;">
+      <a href="javascript:void(0)" onclick="showPage('product')" style="text-decoration:none; color:var(--text);">
+        <img src="product_shoes_mint.png" style="width:100%; height:300px; object-fit:cover; margin-bottom:14px; display:block;">
+        <div style="font-size:14px; margin-bottom:4px;">Сапоги City Rain Mint</div>
+        <div style="font-weight:600;">8 500 ₽</div>
+      </a>
+      <a href="javascript:void(0)" onclick="showPage('product')" style="text-decoration:none; color:var(--text);">
+        <img src="product_raincoat_pink.png" style="width:100%; height:300px; object-fit:cover; margin-bottom:14px; display:block;">
+        <div style="font-size:14px; margin-bottom:4px;">Плащ Puddle Pink</div>
+        <div style="font-weight:600;">7 200 ₽</div>
+      </a>
+      <a href="javascript:void(0)" onclick="showPage('product')" style="text-decoration:none; color:var(--text);">
+        <img src="product_umbrella_blue_v2.png" style="width:100%; height:300px; object-fit:cover; margin-bottom:14px; display:block;">
+        <div style="font-size:14px; margin-bottom:4px;">Зонт Deep Blue</div>
+        <div style="font-weight:600;">3 500 ₽</div>
+      </a>
+      <a href="javascript:void(0)" onclick="showPage('product')" style="text-decoration:none; color:var(--text);">
+        <img src="product_shoes_pink.png" style="width:100%; height:300px; object-fit:cover; margin-bottom:14px; display:block;">
+        <div style="font-size:14px; margin-bottom:4px;">Сапоги Caramel Rain</div>
+        <div><span style="color:#e85555; font-weight:600; margin-right:8px;">6 800 ₽</span><span style="text-decoration:line-through; color:var(--muted); font-size:13px;">8 500 ₽</span></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ПОПУЛЯРНЫЕ ТОВАРЫ -->
+  <section id="home-popular" style="padding: 70px 5%; background: var(--gray);">
+    <h2 style="text-align:center; font-size:1.2rem; font-weight:500; letter-spacing:3px; margin-bottom:40px; text-transform:uppercase;">Популярные товары</h2>
+    <div class="popular-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap:24px; max-width:800px; margin: 0 auto;">
+      <a href="javascript:void(0)" onclick="showPage('product')" style="text-decoration:none; color:var(--text); display:flex; gap:20px; background:var(--white); padding:20px; align-items:center;">
+        <img src="product_shoes_mint.png" style="width:90px; height:110px; object-fit:cover; flex-shrink:0;">
+        <div>
+          <div style="font-size:12px; color:var(--muted); text-transform:uppercase; margin-bottom:6px;">Арт. R-101</div>
+          <div style="font-size:14px; font-weight:500; margin-bottom:8px;">Сапоги City Rain Mint</div>
+          <div style="font-weight:600; color:var(--blue);">8 500 ₽</div>
+        </div>
+      </a>
+      <a href="javascript:void(0)" onclick="showPage('product')" style="text-decoration:none; color:var(--text); display:flex; gap:20px; background:var(--white); padding:20px; align-items:center;">
+        <img src="product_umbrella_blue_v2.png" style="width:90px; height:110px; object-fit:cover; flex-shrink:0;">
+        <div>
+          <div style="font-size:12px; color:var(--muted); text-transform:uppercase; margin-bottom:6px;">Арт. A-05</div>
+          <div style="font-size:14px; font-weight:500; margin-bottom:8px;">Зонт Deep Blue</div>
+          <div style="font-weight:600; color:var(--blue);">3 500 ₽</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ПРЕИМУЩЕСТВА -->
+  <section id="home-advantages" style="padding: 70px 5%; text-align:center; background:var(--white);">
+    <h2 style="font-size:1.2rem; font-weight:500; letter-spacing:3px; margin-bottom:50px; text-transform:uppercase;">Почему RainChic</h2>
+    <div class="advantages-grid" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:40px;">
+      <div><div style="font-size:36px; margin-bottom:16px;">☔</div><h4 style="font-weight:500; margin-bottom:8px;">Стиль в любую погоду</h4><p style="font-size:13px; font-weight:300; color:var(--muted); line-height:1.7;">Выглядеть модно — независимо от прогноза погоды.</p></div>
+      <div><div style="font-size:36px; margin-bottom:16px;">🚚</div><h4 style="font-weight:500; margin-bottom:8px;">Доставка по России</h4><p style="font-size:13px; font-weight:300; color:var(--muted); line-height:1.7;">СДЭК и Почта России по всей стране.</p></div>
+      <div><div style="font-size:36px; margin-bottom:16px;">↩️</div><h4 style="font-weight:500; margin-bottom:8px;">Обмен и возврат</h4><p style="font-size:13px; font-weight:300; color:var(--muted); line-height:1.7;">14 дней на возврат, если что-то пошло не так.</p></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="background:var(--blue); color:white; padding:50px 5%;">
+    <div class="footer-grid" style="display:grid; grid-template-columns: repeat(4, 1fr); gap:30px; margin-bottom:40px;">
+      <div>
+        <h4 style="font-size:12px; text-transform:uppercase; letter-spacing:1px; margin-bottom:16px; color:var(--mint);">RainChic</h4>
+        <a href="#" style="display:block; color:rgba(255,255,255,0.7); text-decoration:none; font-size:13px; font-weight:300; margin-bottom:8px;">О бренде</a>
+      </div>
+      <div>
+        <h4 style="font-size:12px; text-transform:uppercase; letter-spacing:1px; margin-bottom:16px; color:var(--mint);">Покупателям</h4>
+        <a href="#" style="display:block; color:rgba(255,255,255,0.7); text-decoration:none; font-size:13px; font-weight:300; margin-bottom:8px;">Доставка и оплата</a>
+        <a href="#" style="display:block; color:rgba(255,255,255,0.7); text-decoration:none; font-size:13px; font-weight:300; margin-bottom:8px;">Обмен и возврат</a>
+      </div>
+      <div>
+        <h4 style="font-size:12px; text-transform:uppercase; letter-spacing:1px; margin-bottom:16px; color:var(--mint);">Контакты</h4>
+        <a href="#" style="display:block; color:rgba(255,255,255,0.7); text-decoration:none; font-size:13px; font-weight:300; margin-bottom:8px;">info@rainchic.ru</a>
+      </div>
+      <div>
+        <h4 style="font-size:12px; text-transform:uppercase; letter-spacing:1px; margin-bottom:16px; color:var(--mint);">Подписка</h4>
+        <input type="email" placeholder="Ваш email" style="width:100%; padding:10px; border:none; font-family:inherit; font-size:13px; margin-bottom:10px;">
+        <button style="background:var(--mint); color:var(--blue); border:none; padding:10px 20px; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:1px; cursor:pointer;">Подписаться</button>
+      </div>
+    </div>
+    <!-- Social Links -->
+    <div class="footer-bottom" style="border-top:1px solid rgba(255,255,255,0.1); padding-top:24px; display:flex; justify-content:space-between; align-items:center;">
+      <div style="font-size:12px; opacity:0.5;">© 2026 RainChic. Все права защищены.</div>
+      <div style="display:flex; gap:16px; align-items:center;">
+        <span style="font-size:12px; opacity:0.5; text-transform:uppercase; letter-spacing:1px;">Мы в соцсетях:</span>
+        <a href="#" style="width:36px; height:36px; border:1px solid rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center; text-decoration:none; color:white; font-size:14px; transition:0.2s;">VK</a>
+        <a href="#" style="width:36px; height:36px; border:1px solid rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center; text-decoration:none; color:white; font-size:14px; transition:0.2s;">TG</a>
+        <a href="#" style="width:36px; height:36px; border:1px solid rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center; text-decoration:none; color:white; font-size:14px; transition:0.2s;">WA</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<div id="catalog" class="page">
+
+    <header>
+        <a href="#" class="logo" onclick="showPage('home')">RainChic</a>
+        <div style="display:flex; gap: 30px; align-items: center;">
+            <div class="nav-catalog">
+                Каталог ▾
+                <div class="dropdown">
+                    <a href="javascript:void(0)" onclick="showPage('catalog')">Все товары</a>
+                    <a href="javascript:void(0)" onclick="showPage('catalog-shoes')">Обувь</a>
+                    <a href="javascript:void(0)" onclick="showPage('catalog-clothes')">Одежда</a>
+                    <a href="javascript:void(0)" onclick="showPage('catalog-accessories')">Аксессуары</a>
+                </div>
+            </div>
+        </div>
+        <div class="header-icons">
+            <a href="javascript:void(0)" onclick="showPage('login')">👤 <span>Войти</span></a>
+            <a href="javascript:void(0)" onclick="showPage('cart')">🛒 <span>(2)</span></a>
+        </div>
+    </header>
+
+  <div style="padding: 40px 5%;">
+    <div style="font-size:12px; color:var(--muted); margin-bottom:16px; text-transform:uppercase; letter-spacing:1px;">Главная / Обувь</div>
+    <div class="catalog-container" style="display: flex; gap: 40px;">
+
+      <!-- Filters -->
+      <aside class="catalog-sidebar" style="width: 200px; flex-shrink: 0;">
+        <div style="margin-bottom:30px;">
+          <h4 style="font-size:12px; text-transform:uppercase; letter-spacing:1px; margin-bottom:14px; font-weight:600;">Цвет</h4>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <div class="color-dot" style="width:28px; height:28px; border-radius:50%; background:var(--mint); outline: 2px solid var(--blue); outline-offset:2px; cursor:pointer; transition:0.2s;"></div>
+            <div class="color-dot" style="width:28px; height:28px; border-radius:50%; background:var(--pink); cursor:pointer; outline:1px solid transparent; outline-offset:2px; transition:0.2s;"></div>
+            <div class="color-dot" style="width:28px; height:28px; border-radius:50%; background:#2B4570; cursor:pointer; outline:1px solid transparent; outline-offset:2px; transition:0.2s;"></div>
+            <div class="color-dot" style="width:28px; height:28px; border-radius:50%; background:#c0a88a; cursor:pointer; outline:1px solid transparent; outline-offset:2px; transition:0.2s;"></div>
+          </div>
+        </div>
+        <div style="margin-bottom:30px;">
+          <h4 style="font-size:12px; text-transform:uppercase; letter-spacing:1px; margin-bottom:14px; font-weight:600;">Размер</h4>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <div class="size-box" style="width:40px; height:40px; border:2px solid var(--blue); display:flex; align-items:center; justify-content:center; font-size:13px; background:var(--blue); color:white; cursor:pointer; transition:0.2s;">36</div>
+            <div class="size-box" style="width:40px; height:40px; border:1px solid #ddd; display:flex; align-items:center; justify-content:center; font-size:13px; cursor:pointer; transition:0.2s;">37</div>
+            <div class="size-box" style="width:40px; height:40px; border:1px solid #ddd; display:flex; align-items:center; justify-content:center; font-size:13px; cursor:pointer; transition:0.2s;">38</div>
+            <div class="size-box" style="width:40px; height:40px; border:1px solid #ddd; display:flex; align-items:center; justify-content:center; font-size:13px; cursor:pointer; transition:0.2s;">39</div>
+          </div>
+        </div>
+        <div>
+          <h4 style="font-size:12px; text-transform:uppercase; letter-spacing:1px; margin-bottom:14px; font-weight:600;">Сортировка</h4>
+          <select style="width:100%; padding:10px; border:1px solid #ddd; font-family:inherit; font-size:13px;">
+            <option>Новинки</option>
+            <option>Цена: по возрастанию</option>
+            <option>Цена: по убыванию</option>
+          </select>
+        </div>
+      </aside>
+
+      <!-- Products Grid -->
+      <main style="flex-grow:1;">
+        <div class="catalog-products" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:30px;">
+          <a href="javascript:void(0)" onclick="showPage('product')" style="text-decoration:none; color:var(--text);">
+            <div style="height:340px; background:var(--mint); margin-bottom:14px;"></div>
+            <div style="font-size:14px; margin-bottom:4px;">Сапоги City Rain Mint</div>
+            <div style="font-size:11px; color:var(--muted); margin-bottom:6px; text-transform:uppercase;">Арт. R-101</div>
+            <div style="font-weight:600;">8 500 ₽</div>
+          </a>
+          <a href="javascript:void(0)" onclick="showPage('product')" style="text-decoration:none; color:var(--text);">
+            <div style="height:340px; background:var(--pink); margin-bottom:14px;"></div>
+            <div style="font-size:14px; margin-bottom:4px;">Сапоги Puddle Pink</div>
+            <div style="font-size:11px; color:var(--muted); margin-bottom:6px; text-transform:uppercase;">Арт. R-102</div>
+            <div><span style="color:#e85555; font-weight:600; margin-right:8px;">6 800 ₽</span><span style="text-decoration:line-through; color:var(--muted); font-size:13px;">8 500 ₽</span></div>
+          </a>
+          <a href="javascript:void(0)" onclick="showPage('product')" style="text-decoration:none; color:var(--text);">
+            <div style="height:340px; background:#B0C4D8; margin-bottom:14px;"></div>
+            <div style="font-size:14px; margin-bottom:4px;">Сапоги Deep Blue</div>
+            <div style="font-size:11px; color:var(--muted); margin-bottom:6px; text-transform:uppercase;">Арт. R-103</div>
+            <div style="font-weight:600;">9 000 ₽</div>
+          </a>
+        </div>
+      </main>
+    </div>
+  </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>RainChic</h4>
+                <a href="#">О бренде</a>
+            </div>
+            <div class="footer-col">
+                <h4>Покупателям</h4>
+                <a href="#">Доставка и оплата</a>
+                <a href="#">Обмен и возврат</a>
+            </div>
+            <div class="footer-col">
+                <h4>Контакты</h4>
+                <a href="#">info@rainchic.ru</a>
+            </div>
+            <div class="footer-col">
+                <h4>Подписка</h4>
+                <input type="email" placeholder="Ваш email" style="width:100%; padding: 10px; border: none; font-family: inherit; font-size: 13px; margin-bottom: 10px;">
+                <button class="btn btn-mint" style="padding: 10px 20px; font-size: 11px;">Подписаться</button>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+
+<div id="product" class="page">
+
+    <header>
+        <a href="#" class="logo" onclick="showPage('home')">RainChic</a>
+        <div style="display:flex; gap: 30px; align-items: center;">
+            <div class="nav-catalog">
+                Каталог ▾
+                <div class="dropdown">
+                    <a href="javascript:void(0)" onclick="showPage('catalog')">Все товары</a>
+                    <a href="javascript:void(0)" onclick="showPage('catalog-shoes')">Обувь</a>
+                    <a href="javascript:void(0)" onclick="showPage('catalog-clothes')">Одежда</a>
+                    <a href="javascript:void(0)" onclick="showPage('catalog-accessories')">Аксессуары</a>
+                </div>
+            </div>
+        </div>
+        <div class="header-icons">
+            <a href="javascript:void(0)" onclick="showPage('login')">👤 <span>Войти</span></a>
+            <a href="javascript:void(0)" onclick="showPage('cart')">🛒 <span>(2)</span></a>
+        </div>
+    </header>
+
+  <div style="padding: 40px 5%;">
+    <div style="font-size:12px; color:var(--muted); margin-bottom:24px; text-transform:uppercase; letter-spacing:1px;">Главная / Обувь / Сапоги City Rain Mint</div>
+    <div class="product-container" style="display:grid; grid-template-columns: 1fr 1fr; gap:60px;">
+
+      <!-- Gallery -->
+      <div>
+        <img src="product_shoes_mint.png" style="width:100%; height:580px; object-fit:cover;" class="product-main-img margin-bottom:16px; display:block;">
+        <div style="display:flex; gap:12px;">
+          <img src="product_shoes_mint.png" style="width:80px; height:100px; object-fit:cover; border:2px solid var(--blue); cursor:pointer;">
+          <img src="product_shoes_pink.png" style="width:80px; height:100px; object-fit:cover; cursor:pointer;">
+          <img src="product_coat_mint.png" style="width:80px; height:100px; object-fit:cover; cursor:pointer;">
+        </div>
+      </div>
+
+      <!-- Info -->
+      <div style="padding-top:10px;">
+        <div style="font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Арт. R-101</div>
+        <h1 class="product-title" style="font-size:2rem; font-weight:300; margin-bottom:20px;">Сапоги City Rain Mint</h1>
+
+        <div style="margin-bottom:24px;">
+          <span style="font-size:1.8rem; font-weight:600; color:var(--blue);">8 500 ₽</span>
+        </div>
+
+        <p style="font-size:14px; font-weight:300; line-height:1.8; color:#666; margin-bottom:30px;">Идеальные резиновые сапоги для городских луж. Лёгкий матовый материал, анатомическая стелька. Яркий цвет освежит любой пасмурный день.</p>
+
+        <!-- Colors -->
+        <div style="margin-bottom:24px;">
+          <div style="font-size:12px; text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; font-weight:600;">Цвет: <span style="font-weight:400;">Мятный</span></div>
+          <div style="display:flex; gap:12px;">
+            <div class="color-dot" style="width:32px; height:32px; border-radius:50%; background:var(--mint); outline:2px solid var(--blue); outline-offset:3px; cursor:pointer; transition:0.2s;"></div>
+            <div class="color-dot" style="width:32px; height:32px; border-radius:50%; background:var(--pink); cursor:pointer; outline:1px solid #ddd; outline-offset:3px; transition:0.2s;"></div>
+            <div class="color-dot" style="width:32px; height:32px; border-radius:50%; background:#2B4570; cursor:pointer; outline:1px solid #ddd; outline-offset:3px; transition:0.2s;"></div>
+          </div>
+        </div>
+
+        <!-- Sizes -->
+        <div style="margin-bottom:30px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <div style="font-size:12px; text-transform:uppercase; letter-spacing:1px; font-weight:600;">Размер</div>
+            <a href="#" style="font-size:12px; color:var(--blue); text-decoration:underline;">Таблица размеров</a>
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <div class="size-box" style="width:50px; height:50px; border:1px solid #ddd; display:flex; align-items:center; justify-content:center; font-size:13px; cursor:pointer; transition:0.2s;">36</div>
+            <div class="size-box" style="width:50px; height:50px; border:2px solid var(--blue); background:var(--blue); color:white; display:flex; align-items:center; justify-content:center; font-size:13px; cursor:pointer; transition:0.2s;">37</div>
+            <div class="size-box" style="width:50px; height:50px; border:1px solid #ddd; display:flex; align-items:center; justify-content:center; font-size:13px; cursor:pointer; transition:0.2s;">38</div>
+            <div class="size-box" style="width:50px; height:50px; border:1px solid #ddd; display:flex; align-items:center; justify-content:center; font-size:13px; cursor:pointer; transition:0.2s;">39</div>
+            <div class="size-box" style="width:50px; height:50px; border:1px solid #eee; color:#ccc; display:flex; align-items:center; justify-content:center; font-size:13px; cursor:not-allowed; transition:0.2s;">40</div>
+          </div>
+        </div>
+
+        <!-- Characteristics -->
+        <div style="margin-bottom:30px; padding:20px; background:var(--gray); border-radius:4px;">
+          <h4 style="font-size:12px; text-transform:uppercase; letter-spacing:1px; margin-bottom:14px;">Характеристики</h4>
+          <div style="font-size:13px; font-weight:300; line-height:2;">
+            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #e0e0e0; padding-bottom:6px; margin-bottom:6px;"><span style="color:var(--muted);">Материал:</span><span>100% резина</span></div>
+            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #e0e0e0; padding-bottom:6px; margin-bottom:6px;"><span style="color:var(--muted);">Высота голенища:</span><span>35 см</span></div>
+            <div style="display:flex; justify-content:space-between;"><span style="color:var(--muted);">Страна:</span><span>Россия</span></div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" style="width:100%; text-align:center; justify-content:center; padding:18px;" onclick="showPage('cart')">Добавить в корзину</button>
+      </div>
+    </div>
+  </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>RainChic</h4>
+                <a href="#">О бренде</a>
+            </div>
+            <div class="footer-col">
+                <h4>Покупателям</h4>
+                <a href="#">Доставка и оплата</a>
+                <a href="#">Обмен и возврат</a>
+            </div>
+            <div class="footer-col">
+                <h4>Контакты</h4>
+                <a href="#">info@rainchic.ru</a>
+            </div>
+            <div class="footer-col">
+                <h4>Подписка</h4>
+                <input type="email" placeholder="Ваш email" style="width:100%; padding: 10px; border: none; font-family: inherit; font-size: 13px; margin-bottom: 10px;">
+                <button class="btn btn-mint" style="padding: 10px 20px; font-size: 11px;">Подписаться</button>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+
+<div id="cart" class="page">
+
+    <header>
+        <a href="#" class="logo" onclick="showPage('home')">RainChic</a>
+        <div style="display:flex; gap: 30px; align-items: center;">
+            <div class="nav-catalog">
+                Каталог ▾
+                <div class="dropdown">
+                    <a href="javascript:void(0)" onclick="showPage('catalog')">Все товары</a>
+                    <a href="javascript:void(0)" onclick="showPage('catalog-shoes')">Обувь</a>
+                    <a href="javascript:void(0)" onclick="showPage('catalog-clothes')">Одежда</a>
+                    <a href="javascript:void(0)" onclick="showPage('catalog-accessories')">Аксессуары</a>
+                </div>
+            </div>
+        </div>
+        <div class="header-icons">
+            <a href="javascript:void(0)" onclick="showPage('login')">👤 <span>Войти</span></a>
+            <a href="javascript:void(0)" onclick="showPage('cart')">🛒 <span>(2)</span></a>
+        </div>
+    </header>
+
+  <div style="padding: 50px 5%; max-width: 1000px; margin: 0 auto;">
+    <h1 style="font-size:1.8rem; font-weight:300; margin-bottom:40px; letter-spacing:1px;">Корзина</h1>
+
+    <div class="cart-container" style="display:grid; grid-template-columns: 1fr 320px; gap:40px;">
+      <div>
+        <!-- Cart Item 1 -->
+        <div class="cart-item" style="display:flex; gap:24px; padding:24px 0; border-bottom:1px solid #eee; align-items:flex-start;">
+          <img src="product_shoes_mint.png" style="width:100px; height:130px; object-fit:cover; flex-shrink:0;" class="cart-item-img">
+          <div class="cart-item-info" style="flex-grow:1;">
+            <div style="font-size:11px; color:var(--muted); text-transform:uppercase; margin-bottom:6px;">Арт. R-101</div>
+            <div style="font-size:15px; font-weight:500; margin-bottom:8px;">Сапоги City Rain Mint</div>
+            <div style="font-size:13px; color:var(--muted); margin-bottom:16px;">Размер: 37 | Цвет: Мятный</div>
+            <div style="display:flex; align-items:center; gap:16px;">
+              <div style="display:flex; align-items:center; border:1px solid #ddd;">
+                <button class="qty-minus" style="width:36px; height:36px; border:none; background:none; cursor:pointer; font-size:16px;">−</button>
+                <span style="width:36px; text-align:center; font-size:14px;">1</span>
+                <button class="qty-plus" style="width:36px; height:36px; border:none; background:none; cursor:pointer; font-size:16px;">+</button>
+              </div>
+              <button style="background:none; border:none; color:var(--muted); font-size:12px; cursor:pointer; text-decoration:underline;">Удалить</button>
+            </div>
+          </div>
+          <div class="cart-item-price" style="font-size:16px; font-weight:600;">8 500 ₽</div>
+        </div>
+
+        <!-- Cart Item 2 -->
+        <div class="cart-item" style="display:flex; gap:24px; padding:24px 0; border-bottom:1px solid #eee; align-items:flex-start;">
+          <img src="product_raincoat_pink.png" style="width:100px; height:130px; object-fit:cover; flex-shrink:0;" class="cart-item-img">
+          <div class="cart-item-info" style="flex-grow:1;">
+            <div style="font-size:11px; color:var(--muted); text-transform:uppercase; margin-bottom:6px;">Арт. C-05</div>
+            <div style="font-size:15px; font-weight:500; margin-bottom:8px;">Плащ Puddle Pink</div>
+            <div style="font-size:13px; color:var(--muted); margin-bottom:16px;">Размер: M | Цвет: Розовый</div>
+            <div style="display:flex; align-items:center; gap:16px;">
+              <div style="display:flex; align-items:center; border:1px solid #ddd;">
+                <button class="qty-minus" style="width:36px; height:36px; border:none; background:none; cursor:pointer; font-size:16px;">−</button>
+                <span style="width:36px; text-align:center; font-size:14px;">1</span>
+                <button class="qty-plus" style="width:36px; height:36px; border:none; background:none; cursor:pointer; font-size:16px;">+</button>
+              </div>
+              <button style="background:none; border:none; color:var(--muted); font-size:12px; cursor:pointer; text-decoration:underline;">Удалить</button>
+            </div>
+          </div>
+          <div class="cart-item-price" style="font-size:16px; font-weight:600; color:#e85555;">6 800 ₽ <small style="text-decoration:line-through; color:var(--muted); font-size:12px;">8 500 ₽</small></div>
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <div class="summary-box" style="background:var(--white); padding:28px; border:1px solid #eee; height:fit-content; position:sticky; top:90px;">
+        <h3 style="font-size:15px; font-weight:500; margin-bottom:24px;">Итого</h3>
+        <div style="display:flex; justify-content:space-between; font-size:14px; margin-bottom:10px;"><span style="color:var(--muted);">Товары (2 шт.)</span><span>15 300 ₽</span></div>
+        <div style="display:flex; justify-content:space-between; font-size:14px; margin-bottom:24px; padding-bottom:24px; border-bottom:1px solid #eee;"><span style="color:var(--muted);">Доставка</span><span>Уточним при заказе</span></div>
+        <div style="display:flex; justify-content:space-between; font-size:16px; font-weight:600; margin-bottom:24px;"><span>Итого</span><span>15 300 ₽</span></div>
+        <button class="btn btn-primary" style="width:100%; text-align:center; padding:16px;" onclick="showPage('checkout')">Оформить заказ</button>
+      </div>
+    </div>
+  </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>RainChic</h4>
+                <a href="#">О бренде</a>
+            </div>
+            <div class="footer-col">
+                <h4>Покупателям</h4>
+                <a href="#">Доставка и оплата</a>
+                <a href="#">Обмен и возврат</a>
+            </div>
+            <div class="footer-col">
+                <h4>Контакты</h4>
+                <a href="#">info@rainchic.ru</a>
+            </div>
+            <div class="footer-col">
+                <h4>Подписка</h4>
+                <input type="email" placeholder="Ваш email" style="width:100%; padding: 10px; border: none; font-family: inherit; font-size: 13px; margin-bottom: 10px;">
+                <button class="btn btn-mint" style="padding: 10px 20px; font-size: 11px;">Подписаться</button>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+
+<div id="checkout" class="page">
+
+    <header>
+        <a href="#" class="logo" onclick="showPage('home')">RainChic</a>
+        <div style="display:flex; gap: 30px; align-items: center;">
+            <div class="nav-catalog">
+                Каталог ▾
+                <div class="dropdown">
+                    <a href="javascript:void(0)" onclick="showPage('catalog')">Все товары</a>
+                    <a href="javascript:void(0)" onclick="showPage('catalog-shoes')">Обувь</a>
+                    <a href="javascript:void(0)" onclick="showPage('catalog-clothes')">Одежда</a>
+                    <a href="javascript:void(0)" onclick="showPage('catalog-accessories')">Аксессуары</a>
+                </div>
+            </div>
+        </div>
+        <div class="header-icons">
+            <a href="javascript:void(0)" onclick="showPage('login')">👤 <span>Войти</span></a>
+            <a href="javascript:void(0)" onclick="showPage('cart')">🛒 <span>(2)</span></a>
+        </div>
+    </header>
+
+  <div style="padding: 50px 5%; max-width: 900px; margin: 0 auto;">
+    <h1 style="font-size:1.8rem; font-weight:300; margin-bottom:40px; letter-spacing:1px;">Оформление заказа</h1>
+
+    <div class="cart-container" style="display:grid; grid-template-columns: 1fr 320px; gap:40px;">
+      <div>
+        <div style="margin-bottom:30px;">
+          <h3 style="font-size:13px; text-transform:uppercase; letter-spacing:1px; margin-bottom:20px; font-weight:600;">Данные получателя</h3>
+          <div style="display:grid; gap:14px;">
+            <input type="text" placeholder="Имя Фамилия Отчество" style="width:100%; padding:14px; border:1px solid #ddd; font-family:inherit; font-size:14px;">
+            <input type="tel" placeholder="Телефон" style="width:100%; padding:14px; border:1px solid #ddd; font-family:inherit; font-size:14px;">
+            <input type="email" placeholder="Email" style="width:100%; padding:14px; border:1px solid #ddd; font-family:inherit; font-size:14px;">
+          </div>
+        </div>
+
+        <div style="margin-bottom:30px;">
+          <h3 style="font-size:13px; text-transform:uppercase; letter-spacing:1px; margin-bottom:20px; font-weight:600;">Способ доставки</h3>
+          <div class="checkout-options" style="display:flex; gap:16px;">
+            <label style="flex:1; border:2px solid var(--blue); padding:16px; cursor:pointer; display:flex; align-items:center; gap:12px; background:rgba(43,69,112,0.04);">
+              <input type="radio" name="delivery" checked style="accent-color:var(--blue);">
+              <div><div style="font-size:14px; font-weight:500;">СДЭК</div><div style="font-size:12px; color:var(--muted);">2-5 дней</div></div>
+            </label>
+            <label style="flex:1; border:1px solid #ddd; padding:16px; cursor:pointer; display:flex; align-items:center; gap:12px;">
+              <input type="radio" name="delivery" style="accent-color:var(--blue);">
+              <div><div style="font-size:14px; font-weight:500;">Почта России</div><div style="font-size:12px; color:var(--muted);">7-14 дней</div></div>
+            </label>
+          </div>
+          <input type="text" placeholder="Адрес доставки" style="width:100%; padding:14px; border:1px solid #ddd; font-family:inherit; font-size:14px; margin-top:14px;">
+        </div>
+
+        <div>
+          <h3 style="font-size:13px; text-transform:uppercase; letter-spacing:1px; margin-bottom:20px; font-weight:600;">Способ оплаты</h3>
+          <div class="checkout-options" style="display:flex; gap:16px;">
+            <label style="flex:1; border:2px solid var(--blue); padding:16px; cursor:pointer; display:flex; align-items:center; gap:12px; background:rgba(43,69,112,0.04);">
+              <input type="radio" name="payment" checked style="accent-color:var(--blue);">
+              <div><div style="font-size:14px; font-weight:500;">Картой на сайте</div><div style="font-size:12px; color:var(--muted);">Сбербанк / СБП</div></div>
+            </label>
+            <label style="flex:1; border:1px solid #ddd; padding:16px; cursor:pointer; display:flex; align-items:center; gap:12px;">
+              <input type="radio" name="payment" style="accent-color:var(--blue);">
+              <div><div style="font-size:14px; font-weight:500;">При получении</div><div style="font-size:12px; color:var(--muted);">Наложенный платёж</div></div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="summary-box" style="background:var(--white); padding:28px; border:1px solid #eee; height:fit-content; position:sticky; top:90px;">
+        <h3 style="font-size:15px; font-weight:500; margin-bottom:20px;">Ваш заказ</h3>
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+          <img src="product_shoes_mint.png" style="width:50px; height:60px; object-fit:cover; flex-shrink:0;">
+          <div style="font-size:13px;">Сапоги City Rain Mint<br><span style="color:var(--muted);">37, Мятный × 1</span></div>
+          <div style="margin-left:auto; font-size:13px; font-weight:600;">8 500 ₽</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:24px; padding-bottom:24px; border-bottom:1px solid #eee;">
+          <img src="product_raincoat_pink.png" style="width:50px; height:60px; object-fit:cover; flex-shrink:0;">
+          <div style="font-size:13px;">Плащ Puddle Pink<br><span style="color:var(--muted);">M, Розовый × 1</span></div>
+          <div style="margin-left:auto; font-size:13px; font-weight:600;">6 800 ₽</div>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:16px; font-weight:600; margin-bottom:20px;"><span>Итого</span><span>15 300 ₽</span></div>
+        <button class="btn btn-primary" style="width:100%; text-align:center; padding:16px;" onclick="showPage('order-success');">Оплатить</button>
+      </div>
+    </div>
+  </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>RainChic</h4>
+                <a href="#">О бренде</a>
+            </div>
+            <div class="footer-col">
+                <h4>Покупателям</h4>
+                <a href="#">Доставка и оплата</a>
+                <a href="#">Обмен и возврат</a>
+            </div>
+            <div class="footer-col">
+                <h4>Контакты</h4>
+                <a href="#">info@rainchic.ru</a>
+            </div>
+            <div class="footer-col">
+                <h4>Подписка</h4>
+                <input type="email" placeholder="Ваш email" style="width:100%; padding: 10px; border: none; font-family: inherit; font-size: 13px; margin-bottom: 10px;">
+                <button class="btn btn-mint" style="padding: 10px 20px; font-size: 11px;">Подписаться</button>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+
+<div id="login" class="page">
+
+    <header>
+        <a href="#" class="logo" onclick="showPage('home')">RainChic</a>
+        <div style="display:flex; gap: 30px; align-items: center;">
+            <div class="nav-catalog">
+                Каталог ▾
+                <div class="dropdown">
+                    <a href="javascript:void(0)" onclick="showPage('catalog')">Все товары</a>
+                    <a href="javascript:void(0)" onclick="showPage('catalog-shoes')">Обувь</a>
+                    <a href="javascript:void(0)" onclick="showPage('catalog-clothes')">Одежда</a>
+                    <a href="javascript:void(0)" onclick="showPage('catalog-accessories')">Аксессуары</a>
+                </div>
+            </div>
+        </div>
+        <div class="header-icons">
+            <a href="javascript:void(0)" onclick="showPage('login')">👤 <span>Войти</span></a>
+            <a href="javascript:void(0)" onclick="showPage('cart')">🛒 <span>(2)</span></a>
+        </div>
+    </header>
+
+  <div class="auth-container" style="padding: 80px 20px; max-width:420px; margin: 0 auto;">
+    <h1 style="font-size:1.8rem; font-weight:300; margin-bottom:8px; text-align:center;">Войти</h1>
+    <p style="text-align:center; color:var(--muted); font-size:14px; margin-bottom:40px;">Нет аккаунта? <a href="javascript:void(0)" onclick="showPage('register')" style="color:var(--blue);">Зарегистрироваться</a></p>
+    <div class="auth-box" style="background:var(--white); padding:40px; border:1px solid #eee;">
+      <div style="margin-bottom:16px;"><input type="email" placeholder="Email" style="width:100%; padding:14px; border:1px solid #ddd; font-family:inherit; font-size:14px;"></div>
+      <div style="margin-bottom:10px;"><input type="password" placeholder="Пароль" style="width:100%; padding:14px; border:1px solid #ddd; font-family:inherit; font-size:14px;"></div>
+      <div style="text-align:right; margin-bottom:24px;"><a href="#" style="font-size:12px; color:var(--muted);">Выслать одноразовый пароль на email</a></div>
+      <button class="btn btn-primary" style="width:100%; text-align:center; padding:16px;" onclick="showPage('lk')">Войти</button>
+    </div>
+  </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>RainChic</h4>
+                <a href="#">О бренде</a>
+            </div>
+            <div class="footer-col">
+                <h4>Покупателям</h4>
+                <a href="#">Доставка и оплата</a>
+                <a href="#">Обмен и возврат</a>
+            </div>
+            <div class="footer-col">
+                <h4>Контакты</h4>
+                <a href="#">info@rainchic.ru</a>
+            </div>
+            <div class="footer-col">
+                <h4>Подписка</h4>
+                <input type="email" placeholder="Ваш email" style="width:100%; padding: 10px; border: none; font-family: inherit; font-size: 13px; margin-bottom: 10px;">
+                <button class="btn btn-mint" style="padding: 10px 20px; font-size: 11px;">Подписаться</button>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+
+<div id="register" class="page">
+
+    <header>
+        <a href="#" class="logo" onclick="showPage('home')">RainChic</a>
+        <div style="display:flex; gap: 30px; align-items: center;">
+            <div class="nav-catalog">
+                Каталог ▾
+                <div class="dropdown">
+                    <a href="javascript:void(0)" onclick="showPage('catalog')">Все товары</a>
+                    <a href="javascript:void(0)" onclick="showPage('catalog-shoes')">Обувь</a>
+                    <a href="javascript:void(0)" onclick="showPage('catalog-clothes')">Одежда</a>
+                    <a href="javascript:void(0)" onclick="showPage('catalog-accessories')">Аксессуары</a>
+                </div>
+            </div>
+        </div>
+        <div class="header-icons">
+            <a href="javascript:void(0)" onclick="showPage('login')">👤 <span>Войти</span></a>
+            <a href="javascript:void(0)" onclick="showPage('cart')">🛒 <span>(2)</span></a>
+        </div>
+    </header>
+
+  <div class="auth-container" style="padding: 80px 20px; max-width:420px; margin: 0 auto;">
+    <h1 style="font-size:1.8rem; font-weight:300; margin-bottom:8px; text-align:center;">Регистрация</h1>
+    <p style="text-align:center; color:var(--muted); font-size:14px; margin-bottom:40px;">Уже есть аккаунт? <a href="javascript:void(0)" onclick="showPage('login')" style="color:var(--blue);">Войти</a></p>
+    <div class="auth-box" style="background:var(--white); padding:40px; border:1px solid #eee;">
+      <div style="margin-bottom:16px;"><input type="text" placeholder="Имя" style="width:100%; padding:14px; border:1px solid #ddd; font-family:inherit; font-size:14px;"></div>
+      <div style="margin-bottom:16px;"><input type="email" placeholder="Email" style="width:100%; padding:14px; border:1px solid #ddd; font-family:inherit; font-size:14px;"></div>
+      <div style="margin-bottom:24px;"><input type="password" placeholder="Пароль" style="width:100%; padding:14px; border:1px solid #ddd; font-family:inherit; font-size:14px;"></div>
+      <button class="btn btn-primary" style="width:100%; text-align:center; padding:16px;" onclick="showPage('lk')">Зарегистрироваться</button>
+    </div>
+  </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>RainChic</h4>
+                <a href="#">О бренде</a>
+            </div>
+            <div class="footer-col">
+                <h4>Покупателям</h4>
+                <a href="#">Доставка и оплата</a>
+                <a href="#">Обмен и возврат</a>
+            </div>
+            <div class="footer-col">
+                <h4>Контакты</h4>
+                <a href="#">info@rainchic.ru</a>
+            </div>
+            <div class="footer-col">
+                <h4>Подписка</h4>
+                <input type="email" placeholder="Ваш email" style="width:100%; padding: 10px; border: none; font-family: inherit; font-size: 13px; margin-bottom: 10px;">
+                <button class="btn btn-mint" style="padding: 10px 20px; font-size: 11px;">Подписаться</button>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+
+<div id="lk" class="page">
+
+    <header>
+        <a href="#" class="logo" onclick="showPage('home')">RainChic</a>
+        <div style="display:flex; gap: 30px; align-items: center;">
+            <div class="nav-catalog">
+                Каталог ▾
+                <div class="dropdown">
+                    <a href="javascript:void(0)" onclick="showPage('catalog')">Все товары</a>
+                    <a href="javascript:void(0)" onclick="showPage('catalog-shoes')">Обувь</a>
+                    <a href="javascript:void(0)" onclick="showPage('catalog-clothes')">Одежда</a>
+                    <a href="javascript:void(0)" onclick="showPage('catalog-accessories')">Аксессуары</a>
+                </div>
+            </div>
+        </div>
+        <div class="header-icons">
+            <a href="javascript:void(0)" onclick="showPage('login')">👤 <span>Войти</span></a>
+            <a href="javascript:void(0)" onclick="showPage('cart')">🛒 <span>(2)</span></a>
+        </div>
+    </header>
+
+  <div style="padding: 50px 5%; max-width:900px; margin: 0 auto;">
+    <h1 style="font-size:1.8rem; font-weight:300; margin-bottom:40px;">Личный кабинет</h1>
+    <div class="lk-container" style="display:grid; grid-template-columns: 220px 1fr; gap:40px;">
+      <!-- LK Menu -->
+      <aside>
+        <div style="background:var(--white); border:1px solid #eee; overflow:hidden;">
+          <a href="#" style="display:block; padding:14px 20px; font-size:13px; text-decoration:none; color:var(--blue); background:rgba(43,69,112,0.05); border-left:3px solid var(--blue); font-weight:500;">Мои заказы</a>
+          <a href="#" style="display:block; padding:14px 20px; font-size:13px; text-decoration:none; color:var(--text); border-left:3px solid transparent;">Профиль</a>
+          <a href="#" style="display:block; padding:14px 20px; font-size:13px; text-decoration:none; color:#e85555; border-left:3px solid transparent;">Выйти</a>
+        </div>
+      </aside>
+      <!-- Orders List -->
+      <main>
+        <h2 style="font-size:15px; font-weight:600; text-transform:uppercase; letter-spacing:1px; margin-bottom:20px;">Мои заказы</h2>
+        <table style="width:100%; border-collapse:collapse; background:var(--white); border:1px solid #eee;">
+          <thead>
+            <tr style="background:#fafafa; border-bottom:2px solid #eee;">
+              <th style="padding:14px 20px; font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:1px; text-align:left; white-space:nowrap;">Заказ</th>
+              <th style="padding:14px 20px; font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:1px; text-align:left; white-space:nowrap;">Дата</th>
+              <th style="padding:14px 20px; font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:1px; text-align:left; white-space:nowrap;">Статус</th>
+              <th style="padding:14px 20px; font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:1px; text-align:right; white-space:nowrap;">Сумма</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr onclick="showPage('lk-order')" style="border-bottom:1px solid #eee; cursor:pointer;" onmouseover="this.style.background='#f9f9f9'" onmouseout="this.style.background='transparent'">
+              <td style="padding:16px 20px; font-size:14px;"><span style="color:var(--blue); font-weight:500; border-bottom:1px dashed rgba(43,69,112,0.4);">#1045</span></td>
+              <td style="padding:16px 20px; font-size:14px; color:var(--muted); white-space:nowrap;">24 марта 2026</td>
+              <td style="padding:16px 20px;"><span style="display:inline-block; padding:4px 12px; background:rgba(32,201,151,0.1); color:#20C997; border-radius:20px; font-size:12px; font-weight:500; white-space:nowrap;">Оплачен</span></td>
+              <td style="padding:16px 20px; font-size:14px; font-weight:600; text-align:right; white-space:nowrap;">15 300 ₽</td>
+            </tr>
+            <tr onclick="showPage('lk-order')" style="cursor:pointer;" onmouseover="this.style.background='#f9f9f9'" onmouseout="this.style.background='transparent'">
+              <td style="padding:16px 20px; font-size:14px;"><span style="color:var(--blue); font-weight:500; border-bottom:1px dashed rgba(43,69,112,0.4);">#1031</span></td>
+              <td style="padding:16px 20px; font-size:14px; color:var(--muted); white-space:nowrap;">10 марта 2026</td>
+              <td style="padding:16px 20px;"><span style="display:inline-block; padding:4px 12px; background:rgba(43,69,112,0.1); color:var(--blue); border-radius:20px; font-size:12px; font-weight:500; white-space:nowrap;">Доставлен</span></td>
+              <td style="padding:16px 20px; font-size:14px; font-weight:600; text-align:right; white-space:nowrap;">8 500 ₽</td>
+            </tr>
+          </tbody>
+        </table>
+      </main>
+    </div>
+  </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>RainChic</h4>
+                <a href="#">О бренде</a>
+            </div>
+            <div class="footer-col">
+                <h4>Покупателям</h4>
+                <a href="#">Доставка и оплата</a>
+                <a href="#">Обмен и возврат</a>
+            </div>
+            <div class="footer-col">
+                <h4>Контакты</h4>
+                <a href="#">info@rainchic.ru</a>
+            </div>
+            <div class="footer-col">
+                <h4>Подписка</h4>
+                <input type="email" placeholder="Ваш email" style="width:100%; padding: 10px; border: none; font-family: inherit; font-size: 13px; margin-bottom: 10px;">
+                <button class="btn btn-mint" style="padding: 10px 20px; font-size: 11px;">Подписаться</button>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+
+<div id="lk-order" class="page">
+
+    <header>
+        <a href="#" class="logo" onclick="showPage('home')">RainChic</a>
+        <div style="display:flex; gap: 30px; align-items: center;">
+            <div class="nav-catalog">
+                Каталог ▾
+                <div class="dropdown">
+                    <a href="javascript:void(0)" onclick="showPage('catalog')">Все товары</a>
+                    <a href="javascript:void(0)" onclick="showPage('catalog-shoes')">Обувь</a>
+                    <a href="javascript:void(0)" onclick="showPage('catalog-clothes')">Одежда</a>
+                    <a href="javascript:void(0)" onclick="showPage('catalog-accessories')">Аксессуары</a>
+                </div>
+            </div>
+        </div>
+        <div class="header-icons">
+            <a href="javascript:void(0)" onclick="showPage('login')">👤 <span>Войти</span></a>
+            <a href="javascript:void(0)" onclick="showPage('cart')">🛒 <span>(2)</span></a>
+        </div>
+    </header>
+
+  <div style="padding: 50px 5%; max-width:900px; margin: 0 auto;">
+    <a href="javascript:void(0)" onclick="showPage('lk')" style="font-size:13px; color:var(--muted); text-decoration:none; margin-bottom:20px; display:inline-block;">← Назад к заказам</a>
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:30px;">
+      <div><h1 style="font-size:1.8rem; font-weight:300;">Заказ #1045</h1><p style="color:var(--muted); font-size:14px; margin-top:6px;">24 марта 2026</p></div>
+      <span style="padding:8px 16px; background:rgba(32,201,151,0.1); color:#20C997; border-radius:20px; font-size:13px; font-weight:500;">Оплачен</span>
+    </div>
+    <div style="background:var(--white); border:1px solid #eee; padding:28px; margin-bottom:24px;">
+      <h3 style="font-size:13px; text-transform:uppercase; letter-spacing:1px; margin-bottom:20px;">Состав заказа</h3>
+      <div class="lk-order-item" style="display:flex; gap:20px; align-items:center; padding-bottom:16px; border-bottom:1px solid #eee; margin-bottom:16px;">
+        <img src="product_shoes_mint.png" style="width:60px; height:80px; object-fit:cover; flex-shrink:0;">
+        <div class="cart-item-info" style="flex-grow:1;"><div style="font-size:14px; font-weight:500;">Сапоги City Rain Mint</div><div style="font-size:12px; color:var(--muted); margin-top:4px;">Арт. R-101 | Размер: 37 | Цвет: Мятный</div></div>
+        <div class="lk-order-item-price" style="text-align:right;"><div style="font-size:13px; color:var(--muted);">1 × 8 500 ₽</div></div>
+      </div>
+      <div class="lk-order-item" style="display:flex; gap:20px; align-items:center;">
+        <img src="product_raincoat_pink.png" style="width:60px; height:80px; object-fit:cover; flex-shrink:0;">
+        <div class="cart-item-info" style="flex-grow:1;"><div style="font-size:14px; font-weight:500;">Плащ Puddle Pink</div><div style="font-size:12px; color:var(--muted); margin-top:4px;">Арт. C-05 | Размер: M | Цвет: Розовый</div></div>
+        <div class="lk-order-item-price" style="text-align:right;"><div style="font-size:13px; color:var(--muted);">1 × 6 800 ₽</div></div>
+      </div>
+      <div style="text-align:right; margin-top:20px; padding-top:20px; border-top:1px solid #eee; font-size:16px; font-weight:600;">Итого: 15 300 ₽</div>
+    </div>
+    
+          <!-- TRACK NUMBER -->
+          <div style="margin-bottom:32px;padding:20px;background:rgba(32,201,151,0.06);border:1px solid rgba(32,201,151,0.2);">
+            <div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:10px;">Отслеживание посылки</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+              <div>
+                <div style="font-size:13px;color:var(--muted);margin-bottom:4px;">Служба доставки</div>
+                <div style="font-size:14px;font-weight:500;">СДЭК</div>
+              </div>
+              <div>
+                <div style="font-size:13px;color:var(--muted);margin-bottom:4px;">Трек-номер</div>
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <span style="font-size:15px;font-weight:600;font-family:monospace;letter-spacing:1px;color:var(--blue);">1234567890AB</span>
+                  <button onclick="navigator.clipboard.writeText('1234567890AB').then(()=>this.innerText='✓').catch(()=>{})" style="border:1px solid var(--blue);background:transparent;color:var(--blue);padding:5px 12px;font-size:11px;cursor:pointer;font-family:inherit;transition:0.2s;">Копировать</button>
+                </div>
+              </div>
+              <a href="#" onclick="alert('Переход на сайт СДЭК для отслеживания')" style="background:var(--blue);color:white;padding:10px 20px;text-decoration:none;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">Отследить →</a>
+            </div>
+            <!-- Progress bar -->
+            <div style="margin-top:20px;">
+              <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                <span style="font-size:11px;color:#20C997;font-weight:600;">● Оплачен</span>
+                <span style="font-size:11px;color:#20C997;font-weight:600;">● Отправлен</span>
+                <span style="font-size:11px;color:var(--muted);">○ В пути</span>
+                <span style="font-size:11px;color:var(--muted);">○ Доставлен</span>
+              </div>
+              <div style="height:4px;background:#eee;border-radius:2px;">
+                <div style="height:4px;background:#20C997;border-radius:2px;width:45%;"></div>
+              </div>
+            </div>
+          </div>
+    <div class="lk-order-details" style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+      <div style="background:var(--white); border:1px solid #eee; padding:24px;">
+        <h3 style="font-size:13px; text-transform:uppercase; letter-spacing:1px; margin-bottom:16px;">Доставка</h3>
+        <div style="font-size:14px; font-weight:300; line-height:2; color:#555;">
+          <div>СДЭК (до двери)</div>
+          <div>г. Москва, ул. Ленина, д. 15, кв. 42</div>
+        </div>
+      </div>
+      <div style="background:var(--white); border:1px solid #eee; padding:24px;">
+        <h3 style="font-size:13px; text-transform:uppercase; letter-spacing:1px; margin-bottom:16px;">Оплата</h3>
+        <div style="font-size:14px; font-weight:300; line-height:2; color:#555;">
+          <div>Картой на сайте (Сбербанк)</div>
+          <div style="color:#20C997; font-weight:500;">✓ Оплачен 24 марта 2026</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>RainChic</h4>
+                <a href="#">О бренде</a>
+            </div>
+            <div class="footer-col">
+                <h4>Покупателям</h4>
+                <a href="#">Доставка и оплата</a>
+                <a href="#">Обмен и возврат</a>
+            </div>
+            <div class="footer-col">
+                <h4>Контакты</h4>
+                <a href="#">info@rainchic.ru</a>
+            </div>
+            <div class="footer-col">
+                <h4>Подписка</h4>
+                <input type="email" placeholder="Ваш email" style="width:100%; padding: 10px; border: none; font-family: inherit; font-size: 13px; margin-bottom: 10px;">
+                <button class="btn btn-mint" style="padding: 10px 20px; font-size: 11px;">Подписаться</button>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+<script>
+function showPage(id, pushState) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    var page = document.getElementById(id);
+    if (page) {
+        page.classList.add('active');
+        window.scrollTo(0, 0);
+    }
+    // Push to browser history so Back button works
+    if (pushState !== false) {
+        history.pushState({ page: id }, '', '#' + id);
+    }
+}
+
+// Handle browser Back / Forward buttons
+window.addEventListener('popstate', function(e) {
+    var id = (e.state && e.state.page) ? e.state.page : 'home';
+    showPage(id, false);
+});
+
+// On first load — called inline at bottom of body
+function initHistory() {
+    var hash = window.location.hash.replace('#', '');
+    var startPage = hash && document.getElementById(hash) ? hash : 'home';
+    history.replaceState({ page: startPage }, '', '#' + startPage);
+    // Only switch page if not already on home (avoid double init)
+    if (startPage !== 'home') {
+        showPage(startPage, false);
+    }
+}
+
+var currentSlide = 0;
+var totalSlides = 3;
+
+function goToSlide(n) {
+    currentSlide = n;
+    document.getElementById('slider').style.transform = 'translateX(-' + (100/3 * n) + '%)';
+    for (var i = 0; i < totalSlides; i++) {
+        var dot = document.getElementById('dot-' + i);
+        if (dot) {
+            dot.style.width = i === n ? '28px' : '10px';
+            dot.style.background = i === n ? 'var(--blue)' : 'rgba(43,69,112,0.3)';
+        }
+    }
+}
+function slideNext() { goToSlide((currentSlide + 1) % totalSlides); }
+function slidePrev() { goToSlide((currentSlide - 1 + totalSlides) % totalSlides); }
+setInterval(function() { if (document.getElementById('home').classList.contains('active')) slideNext(); }, 4000);
+
+
+// UI Interactions for Sizes and Colors
+document.addEventListener('DOMContentLoaded', function() {
+    // Make size boxes selectable
+    const sizeBoxes = document.querySelectorAll('.size-box');
+    sizeBoxes.forEach(box => {
+        box.addEventListener('click', function() {
+            if (this.style.cursor === 'not-allowed') return; // skip disabled sizes
+
+            // Remove active state from siblings
+            const siblings = this.parentElement.querySelectorAll('.size-box');
+            siblings.forEach(s => {
+                s.style.background = 'transparent';
+                s.style.color = 'var(--text)';
+                s.style.border = '1px solid #ddd';
+            });
+
+            // Add active state to clicked
+            this.style.background = 'var(--blue)';
+            this.style.color = 'white';
+            this.style.border = '2px solid var(--blue)';
+        });
+    });
+
+    // Make color dots selectable
+    const colorDots = document.querySelectorAll('.color-dot');
+    colorDots.forEach(dot => {
+        dot.addEventListener('click', function() {
+            const siblings = this.parentElement.querySelectorAll('.color-dot');
+            siblings.forEach(s => {
+                s.style.outline = '1px solid #ddd';
+            });
+            this.style.outline = '2px solid var(--blue)';
+        });
+    });
+
+    // Cart quantity buttons
+    const minusBtns = document.querySelectorAll('.qty-minus');
+    const plusBtns = document.querySelectorAll('.qty-plus');
+
+    minusBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const span = this.nextElementSibling;
+            let val = parseInt(span.innerText);
+            if (val > 1) span.innerText = val - 1;
+        });
+    });
+
+    plusBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const span = this.previousElementSibling;
+            let val = parseInt(span.innerText);
+            span.innerText = val + 1;
+        });
+    });
+});
+
+
+// Touch swipe for hero slider
+(function() {
+    var slider = document.getElementById('slider');
+    if (!slider) return;
+    var startX = 0;
+    slider.addEventListener('touchstart', function(e) {
+        startX = e.touches[0].clientX;
+    }, { passive: true });
+    slider.addEventListener('touchend', function(e) {
+        var diff = startX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 50) {
+            diff > 0 ? slideNext() : slidePrev();
+        }
+    }, { passive: true });
+})();
+
+</script>
+
+
+<!-- ══════════════════════════════════════
+     CATALOG: SHOES
+══════════════════════════════════════ -->
+<div id="catalog-shoes" class="page">
+  <header>
+    <a href="#" class="logo" onclick="showPage('home')">RainChic</a>
+    <div style="display:flex;gap:30px;align-items:center;">
+      <div class="nav-catalog">Каталог ▾
+        <div class="dropdown">
+          <a href="javascript:void(0)" onclick="showPage('catalog')">Все товары</a>
+          <a href="javascript:void(0)" onclick="showPage('catalog-shoes')">Обувь</a>
+          <a href="javascript:void(0)" onclick="showPage('catalog-clothes')">Одежда</a>
+          <a href="javascript:void(0)" onclick="showPage('catalog-accessories')">Аксессуары</a>
+        </div>
+      </div>
+    </div>
+    <div class="header-icons">
+      <a href="javascript:void(0)" onclick="showPage('lk')">👤 <span>Кабинет</span></a>
+      <a href="javascript:void(0)" onclick="showPage('cart')">🛒 <span>(2)</span></a>
+    </div>
+  </header>
+  <div style="padding:30px 5% 20px;">
+    <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">
+      <a href="javascript:void(0)" onclick="showPage('home')" style="color:var(--muted);text-decoration:none;">Главная</a> /
+      <a href="javascript:void(0)" onclick="showPage('catalog')" style="color:var(--muted);text-decoration:none;">Каталог</a> / Обувь
+    </div>
+    <h1 style="font-size:1.8rem;font-weight:300;margin-bottom:4px;">Обувь</h1>
+    <p style="font-size:13px;color:var(--muted);">Резиновые сапоги и боты для любой погоды</p>
+  </div>
+  <div style="display:flex;gap:40px;padding:0 5% 60px;" class="catalog-container">
+    <aside style="width:200px;flex-shrink:0;" class="catalog-sidebar">
+      <div style="margin-bottom:30px;">
+        <h4 style="font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;">Цвет</h4>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <div class="color-dot" style="width:28px;height:28px;border-radius:50%;background:var(--mint);outline:2px solid var(--blue);outline-offset:2px;cursor:pointer;transition:0.2s;"></div>
+          <div class="color-dot" style="width:28px;height:28px;border-radius:50%;background:var(--pink);cursor:pointer;outline:1px solid transparent;outline-offset:2px;transition:0.2s;"></div>
+          <div class="color-dot" style="width:28px;height:28px;border-radius:50%;background:#2B4570;cursor:pointer;outline:1px solid transparent;outline-offset:2px;transition:0.2s;"></div>
+          <div class="color-dot" style="width:28px;height:28px;border-radius:50%;background:#c0a88a;cursor:pointer;outline:1px solid transparent;outline-offset:2px;transition:0.2s;"></div>
+        </div>
+      </div>
+      <div>
+        <h4 style="font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;">Размер</h4>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <div class="size-box" style="width:40px;height:40px;border:2px solid var(--blue);display:flex;align-items:center;justify-content:center;font-size:13px;background:var(--blue);color:white;cursor:pointer;transition:0.2s;">36</div>
+          <div class="size-box" style="width:40px;height:40px;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:0.2s;">37</div>
+          <div class="size-box" style="width:40px;height:40px;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:0.2s;">38</div>
+          <div class="size-box" style="width:40px;height:40px;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:0.2s;">39</div>
+        </div>
+      </div>
+    </aside>
+    <div style="flex:1;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+        <span style="font-size:13px;color:var(--muted);">4 товара</span>
+        <select style="border:1px solid #ddd;padding:8px 12px;font-family:inherit;font-size:13px;cursor:pointer;">
+          <option>По популярности</option><option>Сначала дешевле</option><option>Сначала дороже</option>
+        </select>
+      </div>
+      <div class="catalog-products" style="display:grid;grid-template-columns:repeat(3,1fr);gap:30px;">
+        <a href="javascript:void(0)" onclick="showPage('product')" style="text-decoration:none;color:var(--text);">
+          <img src="product_shoes_mint.png" style="width:100%;height:280px;object-fit:cover;margin-bottom:14px;display:block;">
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Арт. R-101</div>
+          <div style="font-size:14px;margin-bottom:6px;">Сапоги City Rain Mint</div>
+          <div style="font-weight:600;">8 500 ₽</div>
+        </a>
+        <a href="javascript:void(0)" onclick="showPage('product-shoes-pink')" style="text-decoration:none;color:var(--text);">
+          <img src="product_shoes_pink.png" style="width:100%;height:280px;object-fit:cover;margin-bottom:14px;display:block;">
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Арт. R-102</div>
+          <div style="font-size:14px;margin-bottom:6px;">Сапоги Puddle Pink</div>
+          <div><span style="color:#e85555;font-weight:600;margin-right:8px;">6 800 ₽</span><span style="text-decoration:line-through;color:var(--muted);font-size:13px;">8 500 ₽</span></div>
+        </a>
+        <a href="javascript:void(0)" onclick="showPage('product')" style="text-decoration:none;color:var(--text);">
+          <img src="product_shoes_mint.png" style="width:100%;height:280px;object-fit:cover;margin-bottom:14px;display:block;">
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Арт. R-103</div>
+          <div style="font-size:14px;margin-bottom:6px;">Сапоги Deep Navy</div>
+          <div style="font-weight:600;">9 200 ₽</div>
+        </a>
+        <a href="javascript:void(0)" onclick="showPage('product')" style="text-decoration:none;color:var(--text);">
+          <img src="product_shoes_pink.png" style="width:100%;height:280px;object-fit:cover;margin-bottom:14px;display:block;">
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Арт. R-104</div>
+          <div style="font-size:14px;margin-bottom:6px;">Сапоги Caramel Rain</div>
+          <div style="font-weight:600;">7 900 ₽</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     CATALOG: CLOTHES
+══════════════════════════════════════ -->
+<div id="catalog-clothes" class="page">
+  <header>
+    <a href="#" class="logo" onclick="showPage('home')">RainChic</a>
+    <div style="display:flex;gap:30px;align-items:center;">
+      <div class="nav-catalog">Каталог ▾
+        <div class="dropdown">
+          <a href="javascript:void(0)" onclick="showPage('catalog')">Все товары</a>
+          <a href="javascript:void(0)" onclick="showPage('catalog-shoes')">Обувь</a>
+          <a href="javascript:void(0)" onclick="showPage('catalog-clothes')">Одежда</a>
+          <a href="javascript:void(0)" onclick="showPage('catalog-accessories')">Аксессуары</a>
+        </div>
+      </div>
+    </div>
+    <div class="header-icons">
+      <a href="javascript:void(0)" onclick="showPage('lk')">👤 <span>Кабинет</span></a>
+      <a href="javascript:void(0)" onclick="showPage('cart')">🛒 <span>(2)</span></a>
+    </div>
+  </header>
+  <div style="padding:30px 5% 20px;">
+    <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">
+      <a href="javascript:void(0)" onclick="showPage('home')" style="color:var(--muted);text-decoration:none;">Главная</a> /
+      <a href="javascript:void(0)" onclick="showPage('catalog')" style="color:var(--muted);text-decoration:none;">Каталог</a> / Одежда
+    </div>
+    <h1 style="font-size:1.8rem;font-weight:300;margin-bottom:4px;">Одежда</h1>
+    <p style="font-size:13px;color:var(--muted);">Плащи и дождевики для стильных прогулок</p>
+  </div>
+  <div style="display:flex;gap:40px;padding:0 5% 60px;" class="catalog-container">
+    <aside style="width:200px;flex-shrink:0;" class="catalog-sidebar">
+      <div style="margin-bottom:30px;">
+        <h4 style="font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;">Цвет</h4>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <div class="color-dot" style="width:28px;height:28px;border-radius:50%;background:var(--mint);outline:2px solid var(--blue);outline-offset:2px;cursor:pointer;transition:0.2s;"></div>
+          <div class="color-dot" style="width:28px;height:28px;border-radius:50%;background:var(--pink);cursor:pointer;outline:1px solid transparent;outline-offset:2px;transition:0.2s;"></div>
+        </div>
+      </div>
+      <div>
+        <h4 style="font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;">Размер</h4>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <div class="size-box" style="width:40px;height:40px;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:0.2s;">XS</div>
+          <div class="size-box" style="width:40px;height:40px;border:2px solid var(--blue);display:flex;align-items:center;justify-content:center;font-size:13px;background:var(--blue);color:white;cursor:pointer;transition:0.2s;">S</div>
+          <div class="size-box" style="width:40px;height:40px;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:0.2s;">M</div>
+          <div class="size-box" style="width:40px;height:40px;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:0.2s;">L</div>
+        </div>
+      </div>
+    </aside>
+    <div style="flex:1;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+        <span style="font-size:13px;color:var(--muted);">3 товара</span>
+        <select style="border:1px solid #ddd;padding:8px 12px;font-family:inherit;font-size:13px;cursor:pointer;">
+          <option>По популярности</option><option>Сначала дешевле</option><option>Сначала дороже</option>
+        </select>
+      </div>
+      <div class="catalog-products" style="display:grid;grid-template-columns:repeat(3,1fr);gap:30px;">
+        <a href="javascript:void(0)" onclick="showPage('product-coat')" style="text-decoration:none;color:var(--text);">
+          <img src="product_coat_mint.png" style="width:100%;height:340px;object-fit:cover;margin-bottom:14px;display:block;">
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Арт. C-201</div>
+          <div style="font-size:14px;margin-bottom:6px;">Плащ Mint Classic</div>
+          <div style="font-weight:600;">7 200 ₽</div>
+        </a>
+        <a href="javascript:void(0)" onclick="showPage('product-coat')" style="text-decoration:none;color:var(--text);">
+          <img src="product_raincoat_pink.png" style="width:100%;height:340px;object-fit:cover;margin-bottom:14px;display:block;">
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Арт. C-202</div>
+          <div style="font-size:14px;margin-bottom:6px;">Плащ Puddle Pink</div>
+          <div><span style="color:#e85555;font-weight:600;margin-right:8px;">5 900 ₽</span><span style="text-decoration:line-through;color:var(--muted);font-size:13px;">7 200 ₽</span></div>
+        </a>
+        <a href="javascript:void(0)" onclick="showPage('product-coat')" style="text-decoration:none;color:var(--text);">
+          <img src="product_coat_mint.png" style="width:100%;height:340px;object-fit:cover;margin-bottom:14px;display:block;">
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Арт. C-203</div>
+          <div style="font-size:14px;margin-bottom:6px;">Плащ Navy Breeze</div>
+          <div style="font-weight:600;">8 100 ₽</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     CATALOG: ACCESSORIES
+══════════════════════════════════════ -->
+<div id="catalog-accessories" class="page">
+  <header>
+    <a href="#" class="logo" onclick="showPage('home')">RainChic</a>
+    <div style="display:flex;gap:30px;align-items:center;">
+      <div class="nav-catalog">Каталог ▾
+        <div class="dropdown">
+          <a href="javascript:void(0)" onclick="showPage('catalog')">Все товары</a>
+          <a href="javascript:void(0)" onclick="showPage('catalog-shoes')">Обувь</a>
+          <a href="javascript:void(0)" onclick="showPage('catalog-clothes')">Одежда</a>
+          <a href="javascript:void(0)" onclick="showPage('catalog-accessories')">Аксессуары</a>
+        </div>
+      </div>
+    </div>
+    <div class="header-icons">
+      <a href="javascript:void(0)" onclick="showPage('lk')">👤 <span>Кабинет</span></a>
+      <a href="javascript:void(0)" onclick="showPage('cart')">🛒 <span>(2)</span></a>
+    </div>
+  </header>
+  <div style="padding:30px 5% 20px;">
+    <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">
+      <a href="javascript:void(0)" onclick="showPage('home')" style="color:var(--muted);text-decoration:none;">Главная</a> /
+      <a href="javascript:void(0)" onclick="showPage('catalog')" style="color:var(--muted);text-decoration:none;">Каталог</a> / Аксессуары
+    </div>
+    <h1 style="font-size:1.8rem;font-weight:300;margin-bottom:4px;">Аксессуары</h1>
+    <p style="font-size:13px;color:var(--muted);">Зонты и аксессуары для дождливых дней</p>
+  </div>
+  <div style="display:flex;gap:40px;padding:0 5% 60px;" class="catalog-container">
+    <aside style="width:200px;flex-shrink:0;" class="catalog-sidebar">
+      <div>
+        <h4 style="font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;">Цвет</h4>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <div class="color-dot" style="width:28px;height:28px;border-radius:50%;background:#2B4570;outline:2px solid var(--blue);outline-offset:2px;cursor:pointer;transition:0.2s;"></div>
+          <div class="color-dot" style="width:28px;height:28px;border-radius:50%;background:var(--mint);cursor:pointer;outline:1px solid transparent;outline-offset:2px;transition:0.2s;"></div>
+        </div>
+      </div>
+    </aside>
+    <div style="flex:1;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+        <span style="font-size:13px;color:var(--muted);">2 товара</span>
+        <select style="border:1px solid #ddd;padding:8px 12px;font-family:inherit;font-size:13px;cursor:pointer;">
+          <option>По популярности</option><option>Сначала дешевле</option><option>Сначала дороже</option>
+        </select>
+      </div>
+      <div class="catalog-products" style="display:grid;grid-template-columns:repeat(3,1fr);gap:30px;">
+        <a href="javascript:void(0)" onclick="showPage('product-umbrella')" style="text-decoration:none;color:var(--text);">
+          <img src="product_umbrella_blue_v2.png" style="width:100%;height:280px;object-fit:cover;margin-bottom:14px;display:block;">
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Арт. A-05</div>
+          <div style="font-size:14px;margin-bottom:6px;">Зонт Deep Blue</div>
+          <div style="font-weight:600;">3 500 ₽</div>
+        </a>
+        <a href="javascript:void(0)" onclick="showPage('product-umbrella')" style="text-decoration:none;color:var(--text);">
+          <img src="category_accessories_v2.png" style="width:100%;height:280px;object-fit:cover;margin-bottom:14px;display:block;">
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Арт. A-06</div>
+          <div style="font-size:14px;margin-bottom:6px;">Зонт Mint Fresh</div>
+          <div style="font-weight:600;">3 200 ₽</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PRODUCT: PINK BOOTS
+══════════════════════════════════════ -->
+<div id="product-shoes-pink" class="page">
+  <header>
+    <a href="#" class="logo" onclick="showPage('home')">RainChic</a>
+    <div style="display:flex;gap:30px;align-items:center;">
+      <div class="nav-catalog">Каталог ▾
+        <div class="dropdown">
+          <a href="javascript:void(0)" onclick="showPage('catalog')">Все товары</a>
+          <a href="javascript:void(0)" onclick="showPage('catalog-shoes')">Обувь</a>
+          <a href="javascript:void(0)" onclick="showPage('catalog-clothes')">Одежда</a>
+          <a href="javascript:void(0)" onclick="showPage('catalog-accessories')">Аксессуары</a>
+        </div>
+      </div>
+    </div>
+    <div class="header-icons">
+      <a href="javascript:void(0)" onclick="showPage('lk')">👤 <span>Кабинет</span></a>
+      <a href="javascript:void(0)" onclick="showPage('cart')">🛒 <span>(2)</span></a>
+    </div>
+  </header>
+  <div style="padding:20px 5%;font-size:12px;color:var(--muted);">
+    <a href="javascript:void(0)" onclick="showPage('home')" style="color:var(--muted);text-decoration:none;">Главная</a> /
+    <a href="javascript:void(0)" onclick="showPage('catalog-shoes')" style="color:var(--muted);text-decoration:none;">Обувь</a> / Сапоги Puddle Pink
+  </div>
+  <div class="product-container" style="display:grid;grid-template-columns:1fr 1fr;gap:60px;padding:0 5% 60px;">
+    <div>
+      <img src="product_shoes_pink.png" class="product-main-img" style="width:100%;height:580px;object-fit:cover;margin-bottom:16px;display:block;">
+      <div style="display:flex;gap:12px;">
+        <img src="product_shoes_pink.png" style="width:80px;height:100px;object-fit:cover;border:2px solid var(--blue);cursor:pointer;">
+        <img src="product_shoes_mint.png" style="width:80px;height:100px;object-fit:cover;cursor:pointer;opacity:0.6;">
+      </div>
+    </div>
+    <div style="padding-top:20px;">
+      <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Арт. R-102</div>
+      <h1 class="product-title" style="font-size:2rem;font-weight:300;margin-bottom:12px;">Сапоги Puddle Pink</h1>
+      <div style="margin-bottom:24px;">
+        <span style="font-size:1.6rem;font-weight:600;color:#e85555;">6 800 ₽</span>
+        <span style="text-decoration:line-through;color:var(--muted);font-size:1rem;margin-left:12px;">8 500 ₽</span>
+        <span style="background:rgba(232,85,85,0.1);color:#e85555;font-size:12px;padding:3px 8px;border-radius:20px;margin-left:8px;">−20%</span>
+      </div>
+      <div style="margin-bottom:24px;">
+        <h4 style="font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Цвет</h4>
+        <div style="display:flex;gap:10px;">
+          <div class="color-dot" style="width:32px;height:32px;border-radius:50%;background:var(--pink);outline:2px solid var(--blue);outline-offset:3px;cursor:pointer;transition:0.2s;"></div>
+          <div class="color-dot" style="width:32px;height:32px;border-radius:50%;background:var(--mint);cursor:pointer;outline:1px solid #ddd;outline-offset:3px;transition:0.2s;" onclick="showPage('product')"></div>
+        </div>
+      </div>
+      <div style="margin-bottom:32px;">
+        <h4 style="font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Размер</h4>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <div class="size-box" style="width:50px;height:50px;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:0.2s;">36</div>
+          <div class="size-box" style="width:50px;height:50px;border:2px solid var(--blue);background:var(--blue);color:white;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:0.2s;">37</div>
+          <div class="size-box" style="width:50px;height:50px;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:0.2s;">38</div>
+          <div class="size-box" style="width:50px;height:50px;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:0.2s;">39</div>
+          <div class="size-box" style="width:50px;height:50px;border:1px solid #eee;color:#ccc;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:not-allowed;transition:0.2s;">40</div>
+        </div>
+      </div>
+      <button class="btn btn-primary" style="width:100%;padding:18px;margin-bottom:12px;" onclick="showPage('cart')">Добавить в корзину</button>
+      <details style="margin-top:24px;border-top:1px solid #eee;padding-top:20px;">
+        <summary style="cursor:pointer;font-size:13px;font-weight:500;list-style:none;display:flex;justify-content:space-between;">Характеристики ▾</summary>
+        <table style="width:100%;border-collapse:collapse;margin-top:16px;font-size:13px;">
+          <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 0;color:var(--muted);">Материал</td><td style="padding:10px 0;">100% натуральный каучук</td></tr>
+          <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 0;color:var(--muted);">Подкладка</td><td style="padding:10px 0;">Хлопок</td></tr>
+          <tr><td style="padding:10px 0;color:var(--muted);">Страна</td><td style="padding:10px 0;">Португалия</td></tr>
+        </table>
+      </details>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PRODUCT: COAT
+══════════════════════════════════════ -->
+<div id="product-coat" class="page">
+  <header>
+    <a href="#" class="logo" onclick="showPage('home')">RainChic</a>
+    <div style="display:flex;gap:30px;align-items:center;">
+      <div class="nav-catalog">Каталог ▾
+        <div class="dropdown">
+          <a href="javascript:void(0)" onclick="showPage('catalog')">Все товары</a>
+          <a href="javascript:void(0)" onclick="showPage('catalog-shoes')">Обувь</a>
+          <a href="javascript:void(0)" onclick="showPage('catalog-clothes')">Одежда</a>
+          <a href="javascript:void(0)" onclick="showPage('catalog-accessories')">Аксессуары</a>
+        </div>
+      </div>
+    </div>
+    <div class="header-icons">
+      <a href="javascript:void(0)" onclick="showPage('lk')">👤 <span>Кабинет</span></a>
+      <a href="javascript:void(0)" onclick="showPage('cart')">🛒 <span>(2)</span></a>
+    </div>
+  </header>
+  <div style="padding:20px 5%;font-size:12px;color:var(--muted);">
+    <a href="javascript:void(0)" onclick="showPage('home')" style="color:var(--muted);text-decoration:none;">Главная</a> /
+    <a href="javascript:void(0)" onclick="showPage('catalog-clothes')" style="color:var(--muted);text-decoration:none;">Одежда</a> / Плащ Mint Classic
+  </div>
+  <div class="product-container" style="display:grid;grid-template-columns:1fr 1fr;gap:60px;padding:0 5% 60px;">
+    <div>
+      <img src="product_coat_mint.png" class="product-main-img" style="width:100%;height:580px;object-fit:cover;margin-bottom:16px;display:block;">
+      <div style="display:flex;gap:12px;">
+        <img src="product_coat_mint.png" style="width:80px;height:100px;object-fit:cover;border:2px solid var(--blue);cursor:pointer;">
+        <img src="product_raincoat_pink.png" style="width:80px;height:100px;object-fit:cover;cursor:pointer;opacity:0.6;">
+      </div>
+    </div>
+    <div style="padding-top:20px;">
+      <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Арт. C-201</div>
+      <h1 class="product-title" style="font-size:2rem;font-weight:300;margin-bottom:12px;">Плащ Mint Classic</h1>
+      <div style="font-size:1.6rem;font-weight:600;margin-bottom:24px;">7 200 ₽</div>
+      <div style="margin-bottom:24px;">
+        <h4 style="font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Цвет</h4>
+        <div style="display:flex;gap:10px;">
+          <div class="color-dot" style="width:32px;height:32px;border-radius:50%;background:var(--mint);outline:2px solid var(--blue);outline-offset:3px;cursor:pointer;transition:0.2s;"></div>
+          <div class="color-dot" style="width:32px;height:32px;border-radius:50%;background:var(--pink);cursor:pointer;outline:1px solid #ddd;outline-offset:3px;transition:0.2s;"></div>
+        </div>
+      </div>
+      <div style="margin-bottom:32px;">
+        <h4 style="font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Размер</h4>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <div class="size-box" style="width:50px;height:50px;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:0.2s;">XS</div>
+          <div class="size-box" style="width:50px;height:50px;border:2px solid var(--blue);background:var(--blue);color:white;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:0.2s;">S</div>
+          <div class="size-box" style="width:50px;height:50px;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:0.2s;">M</div>
+          <div class="size-box" style="width:50px;height:50px;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:0.2s;">L</div>
+        </div>
+      </div>
+      <button class="btn btn-primary" style="width:100%;padding:18px;margin-bottom:12px;" onclick="showPage('cart')">Добавить в корзину</button>
+      <details style="margin-top:24px;border-top:1px solid #eee;padding-top:20px;">
+        <summary style="cursor:pointer;font-size:13px;font-weight:500;list-style:none;display:flex;justify-content:space-between;">Характеристики ▾</summary>
+        <table style="width:100%;border-collapse:collapse;margin-top:16px;font-size:13px;">
+          <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 0;color:var(--muted);">Материал</td><td style="padding:10px 0;">Нейлон 100%</td></tr>
+          <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 0;color:var(--muted);">Длина</td><td style="padding:10px 0;">До колена</td></tr>
+          <tr><td style="padding:10px 0;color:var(--muted);">Страна</td><td style="padding:10px 0;">Россия</td></tr>
+        </table>
+      </details>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PRODUCT: UMBRELLA
+══════════════════════════════════════ -->
+<div id="product-umbrella" class="page">
+  <header>
+    <a href="#" class="logo" onclick="showPage('home')">RainChic</a>
+    <div style="display:flex;gap:30px;align-items:center;">
+      <div class="nav-catalog">Каталог ▾
+        <div class="dropdown">
+          <a href="javascript:void(0)" onclick="showPage('catalog')">Все товары</a>
+          <a href="javascript:void(0)" onclick="showPage('catalog-shoes')">Обувь</a>
+          <a href="javascript:void(0)" onclick="showPage('catalog-clothes')">Одежда</a>
+          <a href="javascript:void(0)" onclick="showPage('catalog-accessories')">Аксессуары</a>
+        </div>
+      </div>
+    </div>
+    <div class="header-icons">
+      <a href="javascript:void(0)" onclick="showPage('lk')">👤 <span>Кабинет</span></a>
+      <a href="javascript:void(0)" onclick="showPage('cart')">🛒 <span>(2)</span></a>
+    </div>
+  </header>
+  <div style="padding:20px 5%;font-size:12px;color:var(--muted);">
+    <a href="javascript:void(0)" onclick="showPage('home')" style="color:var(--muted);text-decoration:none;">Главная</a> /
+    <a href="javascript:void(0)" onclick="showPage('catalog-accessories')" style="color:var(--muted);text-decoration:none;">Аксессуары</a> / Зонт Deep Blue
+  </div>
+  <div class="product-container" style="display:grid;grid-template-columns:1fr 1fr;gap:60px;padding:0 5% 60px;">
+    <div>
+      <img src="product_umbrella_blue_v2.png" class="product-main-img" style="width:100%;height:580px;object-fit:cover;margin-bottom:16px;display:block;">
+      <div style="display:flex;gap:12px;">
+        <img src="product_umbrella_blue_v2.png" style="width:80px;height:100px;object-fit:cover;border:2px solid var(--blue);cursor:pointer;">
+        <img src="category_accessories_v2.png" style="width:80px;height:100px;object-fit:cover;cursor:pointer;opacity:0.6;">
+      </div>
+    </div>
+    <div style="padding-top:20px;">
+      <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Арт. A-05</div>
+      <h1 class="product-title" style="font-size:2rem;font-weight:300;margin-bottom:12px;">Зонт Deep Blue</h1>
+      <div style="font-size:1.6rem;font-weight:600;margin-bottom:24px;">3 500 ₽</div>
+      <div style="margin-bottom:24px;">
+        <h4 style="font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Цвет</h4>
+        <div style="display:flex;gap:10px;">
+          <div class="color-dot" style="width:32px;height:32px;border-radius:50%;background:#2B4570;outline:2px solid var(--blue);outline-offset:3px;cursor:pointer;transition:0.2s;"></div>
+          <div class="color-dot" style="width:32px;height:32px;border-radius:50%;background:var(--mint);cursor:pointer;outline:1px solid #ddd;outline-offset:3px;transition:0.2s;"></div>
+        </div>
+      </div>
+      <button class="btn btn-primary" style="width:100%;padding:18px;margin-bottom:12px;" onclick="showPage('cart')">Добавить в корзину</button>
+      <details style="margin-top:24px;border-top:1px solid #eee;padding-top:20px;">
+        <summary style="cursor:pointer;font-size:13px;font-weight:500;list-style:none;display:flex;justify-content:space-between;">Характеристики ▾</summary>
+        <table style="width:100%;border-collapse:collapse;margin-top:16px;font-size:13px;">
+          <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 0;color:var(--muted);">Диаметр купола</td><td style="padding:10px 0;">110 см</td></tr>
+          <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 0;color:var(--muted);">Ручка</td><td style="padding:10px 0;">Изогнутая, пластик</td></tr>
+          <tr><td style="padding:10px 0;color:var(--muted);">Защита</td><td style="padding:10px 0;">UPF 50+</td></tr>
+        </table>
+      </details>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     ORDER SUCCESS PAGE
+══════════════════════════════════════ -->
+<div id="order-success" class="page">
+  <header>
+    <a href="#" class="logo" onclick="showPage('home')">RainChic</a>
+    <div class="header-icons">
+      <a href="javascript:void(0)" onclick="showPage('lk')">👤 <span>Кабинет</span></a>
+      <a href="javascript:void(0)" onclick="showPage('cart')">🛒 <span>(0)</span></a>
+    </div>
+  </header>
+  <div style="padding:80px 5%;text-align:center;max-width:600px;margin:0 auto;">
+    <div style="width:72px;height:72px;border-radius:50%;background:rgba(32,201,151,0.12);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:32px;">✓</div>
+    <h1 style="font-size:1.8rem;font-weight:300;margin-bottom:12px;">Заказ оформлен!</h1>
+    <p style="color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:8px;">Ваш заказ <strong style="color:var(--blue);">#1046</strong> успешно оплачен.</p>
+    <p style="color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:40px;">Мы отправим уведомление на почту <strong>kate@example.com</strong> когда посылка будет передана в службу доставки.</p>
+    <div style="background:var(--gray);padding:24px;text-align:left;margin-bottom:40px;">
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:16px;">Детали заказа</div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:10px;"><span>Сапоги City Rain Mint, р.37</span><span>8 500 ₽</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:10px;"><span>Плащ Puddle Pink, р.S</span><span>5 900 ₽</span></div>
+      <div style="border-top:1px solid #ddd;margin:16px 0;"></div>
+      <div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:8px;"><span>Доставка СДЭК</span><span>350 ₽</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:15px;font-weight:600;"><span>Итого</span><span>14 750 ₽</span></div>
+    </div>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a href="javascript:void(0)" onclick="showPage('lk')" class="btn btn-primary">Мои заказы</a>
+      <a href="javascript:void(0)" onclick="showPage('home')" class="btn" style="border:1px solid var(--blue);color:var(--blue);padding:14px 28px;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;text-decoration:none;">Продолжить покупки</a>
+    </div>
+  </div>
+</div>
+
+
+<script>initHistory();</script>
+</body>
+</html>
